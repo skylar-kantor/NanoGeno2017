@@ -1,4 +1,5 @@
 from random import *
+import time
 
 
 def getWord(partOfSpeech):
@@ -113,10 +114,26 @@ while(runAgain.lower() == "yes"):
 
         
         #Join the list back together to print the sentence as a single string
+        
         if(sentenceAdverb.endswith("ly")):
-            print(subject, " ".join(sentenceList) + ".\n")
+            print(".", end="")
+            time.sleep(.45)
+            print(".", end="")
+            time.sleep(.45)
+            print(".", end="")
+            time.sleep(.45)
+            #print(subject, " ".join(sentenceList))
+            print(subject, end=" ")
+            time.sleep(.45)
+            for i in range(0,len(sentenceList),1):
+                print(sentenceList[i], end=" ")
+                time.sleep(.45)
+            #time.sleep(.45)
+            print()
+            time.sleep(.45)
             #Only incerment x if the sentence is valid
             i += 1
+            
 
     runAgain = str(input("Generate more? "))
     while (runAgain.lower() != "yes" and runAgain.lower() != "no"):
