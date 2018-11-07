@@ -1,20 +1,21 @@
 from random import *
 import time
 
+RELATIVE_PATH_TO_RSC = "./rsc/"
 
 def getWord(partOfSpeech):
     #Figure out which list we are using, from the part of speech
     if(partOfSpeech == "adverb"):
-        wordFile = "adverbs.txt"
+        wordFile = RELATIVE_PATH_TO_RSC + "adverbs.txt"
         
     elif(partOfSpeech == "verb"):
-        wordFile = "verbs.txt"
+        wordFile =  RELATIVE_PATH_TO_RSC + "verbs.txt"
         
     elif(partOfSpeech == "adjective"):
-        wordFile = "adjectives.txt"
+        wordFile = RELATIVE_PATH_TO_RSC + "adjectives.txt"
         
     else:
-        wordFile = "nouns.txt"
+        wordFile = RELATIVE_PATH_TO_RSC + "nouns.txt"
 
     #open the text file, and make each word an element of a list
     words = open(wordFile)
@@ -31,6 +32,28 @@ def getWord(partOfSpeech):
     randWord = randint(0,listMax)
     sentenceWord = wordLines[randWord]
     return sentenceWord
+
+
+#Returns a list of related words to a single word, to be used to generate subsequent sentances
+def getContextList (origWord, origPartOfSpeech, tgtPartOfSpeech):
+    #Figure out which parts of speech we're comparing first, so we can search the appropriate list
+    if(origPartOfSpeech == "verb" and tgtPartOfSpeech == "adverb"):
+        contextFile = RELATIVE_PATH_TO_RSC + "Verbs-AdverbsContext.txt"
+    elif(origPartOfSpeech == "verb" and tgtPartOfSpeech == "verb"):
+        contextFile = RELATIVE_PATH_TO_RSC + "Verbs-VerbsContext.txt"
+    elif(origPartOfSpeech == "noun" and tgtPartOfSpeech == "adjective"):
+        contextFile = RELATIVE_PATH_TO_RSC + "Nouns-AdjectivesContext.txt"
+    elif(origPartOfSpeech == "noun" and tgtPartOfSpeech == "noun"):
+        contextFile = RELATIVE_PATH_TO_RSC + "Nouns-NounsContext.txt"
+    elif(origPartOfSpeech == "noun" and tgtPartOfSpeech == "verb"):
+        contextFile = RELATIVE_PATH_TO_RSC + "Nouns-VerbsContext.txt"
+    elif (origPartOfSpeech == "adjective" and tgtPartOfSpeech == "adjective"):
+        contextFile = RELATIVE_PATH_TO_RSC + "Nouns-VerbsContext.txt"
+    else:
+        print("ERROR: THAT COMBINATION DOESN'T EXIST. THE PROGRAM IS PROBABLY GOING TO CRASH NOW. THANK YOU FOR YOUR TIME :)" )
+    
+    
+    
 
 
 
@@ -116,23 +139,15 @@ while(runAgain.lower() == "yes"):
         #Join the list back together to print the sentence as a single string
         
         if(sentenceAdverb.endswith("ly")):
-            print(".", end="")
-            time.sleep(.45)
-            print(".", end="")
-            time.sleep(.45)
-            print(".", end="")
-            time.sleep(.45)
-            #print(subject, " ".join(sentenceList))
-            print(subject, end=" ")
-            time.sleep(.45)
-            for i in range(0,len(sentenceList),1):
-                print(sentenceList[i], end=" ")
-                time.sleep(.45)
-            #time.sleep(.45)
-            print()
-            time.sleep(.45)
             #Only incerment x if the sentence is valid
             i += 1
+            print(subject, end=" ")
+            #Maybe remember to use different variables idiot. That's what caused the stupid infinite loop issue.
+            #Yes I'm insulting myself in my comments. Deal with it
+            for j in range(0,len(sentenceList),1):
+                print(sentenceList[j], end=" ")
+            print()
+            
             
 
     runAgain = str(input("Generate more? "))
